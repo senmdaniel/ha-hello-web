@@ -29,13 +29,9 @@ class ZmanimTimeSensor(Entity):
     @property
     def icon(self): return self._icon
 
-    def update(self):
-        """Bereken de tijden live via jouw core engine."""
+       def update(self):
         try:
-            # Haal de huidige datum op via de provider
             current_date = self.provider.get_current_date()
-            
-            # Haal locatiegegevens rechtstreeks uit de Home Assistant instellingen!
             config = {
                 "timezone": str(dt_util.DEFAULT_TIME_ZONE),
                 "latitude": self.hass.config.latitude,
@@ -43,16 +39,14 @@ class ZmanimTimeSensor(Entity):
                 "city": self.hass.config.location_name
             }
 
-            # Voer jouw berekening uit
             resultaat = calculate_zmanim(config, current_date)
-            zmanim_data = resultaat["zmanim"]
+            # GELEZEN VANUIT JOUW STRUCTUUR:
+            zmanim_data = resultaat["zmanim"]["zmanim"]
 
-            # Haal de juiste tijd ("HH:MM") op uit de geneste dictionary
             if self._sub_key:
                 self._state = zmanim_data[self._zman_key][self._sub_key]["time"]
             else:
                 self._state = zmanim_data[self._zman_key]["time"]
-
         except Exception as e:
             _LOGGER.error("Fout bij berekenen van tijd %s: %s", self._name, e)
             self._state = "Fout"
