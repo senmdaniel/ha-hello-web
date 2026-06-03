@@ -6,6 +6,6 @@
   "documentation": "https://github.com",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/issues",
-  "requirements": [],
+  "requirements": ["convertdate==2.4.0"],
   "version": "1.0.0"
 }
