@@ -1,1 +1,1 @@
-
+DOMAIN = "zmanim_pro"
